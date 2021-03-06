@@ -185,8 +185,8 @@ class Path:
         
 
     def switch(self, u, v):
-        pass
-
+        self.nodes[u],self.nodes[v] = self.nodes[u], self.nodes[v]
+        
 
     def is_valid(self, debug=False):
         self.cycle()
@@ -198,7 +198,6 @@ class Path:
             arrival_time =  max( arrival_time + graph[prev][v], windows[v][0])
             if arrival_time > windows[v][1]:
                 return False
-
             if debug:
                 print(f"prev: {prev} curr {v} arr: {arrival_time} w: {windows[v]} g: {graph[prev][v]}")
             prev = v
@@ -207,6 +206,13 @@ class Path:
             return False
         return True
     
+    def markspan(self):
+        prev = 0
+        arrival_time = 0
+        for v in self.iter_path():
+            arrival_time =  max( arrival_time + graph[prev][v], windows[v][0])
+        return arrival_time
+
     def build_infeasible_solution(self):
         for v in self.not_visited:
             self.add(v)
@@ -288,34 +294,7 @@ def read_data(f):
         closed[i] = secondn
 
 # %%
-def is_insertion_feasible2(vAlpha,v):
-    print("is feasible from ", vAlpha, "to", v)
-    sucAlpha = path.get(vAlpha).next
-
-    if sucAlpha == None:
-        print("no suc in ", vAlpha)
-        sucAlpha = path.get(0)
-
-    if graph[sucAlpha.value][v] == NOT_FEASIBLE:
-        return False
-
-    possible_departure_v = min(windows[v][1], departure[sucAlpha.value] - graph[v][sucAlpha.value])
-    new_alpha_departure = min(windows[vAlpha][1], possible_departure_v - graph[vAlpha][v])
-    
-    is_feasible = True
-
-    if sucAlpha != None:
-        print(new_alpha_departure + graph[vAlpha][v], new_alpha_departure, graph[vAlpha][v], windows[v][1] , " www ", possible_departure_v  + graph[v][sucAlpha.value], possible_departure_v, graph[v][sucAlpha.value], windows[sucAlpha.value][1])
-        is_feasible = graph[vAlpha][v] != NOT_FEASIBLE and graph[v][sucAlpha.value] != NOT_FEASIBLE and new_alpha_departure + graph[vAlpha][v] <= windows[v][1] and possible_departure_v  + graph[v][sucAlpha.value]<= windows[sucAlpha.value][1]
-    else:
-        print(new_alpha_departure + graph[vAlpha][v], new_alpha_departure, graph[vAlpha][v], windows[v][1])
-        is_feasible = graph[vAlpha][v] != NOT_FEASIBLE and new_alpha_departure + graph[vAlpha][v] <= windows[v][1]
-    print(is_feasible)
-    return is_feasible
-
 def is_insertion_feasible(vi, v):
-    '''cpath = path.clone()
-    cpath.insert(vi, v)'''
     path.insert(vi,v)
     is_feasible = path.is_valid()
     path.remove(v)
@@ -557,10 +536,9 @@ def insertion_heuristic(f, debug=False):
     post_optimization()
 
     if debug:
-        print(f"{ 'EUREKA' if path.size == N else 'INCOMPLETE:'+ str(N - path.size)}")
+        print(f"{ 'EUREKA' if path.size == N else 'INCOMPLETE:'+ str(N - path.size)} V:{path.is_valid()} M: {path.markspan()}")
     print(" ".join([str(x) for x in path.iter_path()]))
 
-    solution = list(path.iter_path())
 
     return path, path.size == N
 
@@ -668,7 +646,7 @@ def main():
 # %%
 
 if __name__ == '__main__':
-    main()
-    #multiple_set_execution()
+    #main()
+    multiple_set_execution()
 
 

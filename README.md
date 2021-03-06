@@ -23,12 +23,12 @@ python tsptw_heuristic.py -f "./checker/SolomonPotvinBengio/rc_202.4.txt" -t 80
 
 ### Paper (under development)
 
-[Link]("/blob/main/Implementaci_n_de_TSPTW.pdf")
+[Link](https://github.com/Lufedi/TSPTW-heuristic/blob/main/Implementaci_n_de_TSPTW.pdf)
 
 
 ## Current results
 
-| Case    | Solution | Time | Missing node | Makespan |
+| Case    | Solution | Time | Missing nodes | Makespan |
 |----------|----------|--------|-----------|----------|
 | rc_201.1 | Y       | 0.02   | 0         | 793.2431 |
 | rc_201.2 | Y       | 0.18   | 0         | 843.095  |

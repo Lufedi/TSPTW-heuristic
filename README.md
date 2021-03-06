@@ -22,7 +22,8 @@ python tsptw_heuristic.py -f "./checker/SolomonPotvinBengio/rc_202.4.txt" -t 80
 
 
 ### Paper (under development)
-Plesae check the repo files, there you can find the PDF file with more details of the investigation process and results.
+
+[Link]("/Implementaci_n_de_TSPTW")
 
 
 ## Current results

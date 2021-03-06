@@ -6,7 +6,7 @@ This is an effort to implement an heuristic constructive algorithm to solve the 
 
 
 ```
-python tsptw_2.py -f "./checker/SolomonPotvinBengio/rc_202.4.txt" -t 80   
+python tsptw_heuristic.py -f "./checker/SolomonPotvinBengio/rc_202.4.txt" -t 80   
 ```
 
 **Options**
@@ -41,7 +41,7 @@ Plesae check the repo files, there you can find the PDF file with more details o
 | rc_203.2 | Yes       | 0.11   | 0         |
 | rc_203.3 | Yes       | 1.53   | 0         |
 | rc_203.4 | Yes       | 0.008  | 0         |
-| rc_204.1 | No        | 72     | 0         |
+| rc_204.1 | No        | 72     | 1         |
 | rc_204.2 | Yes       | 0.11   | 0         |
 | rc_204.3 | Yes       | 0.35   | 0         |
 | rc_205.1 | Yes       | 0.008  | 0         |

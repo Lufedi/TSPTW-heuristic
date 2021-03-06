@@ -23,7 +23,7 @@ python tsptw_heuristic.py -f "./checker/SolomonPotvinBengio/rc_202.4.txt" -t 80
 
 ### Paper (under development)
 
-[Link]("/Implementaci_n_de_TSPTW")
+[Link]("https://github.com/Lufedi/TSPTW-heuristic/blob/main/Implementaci_n_de_TSPTW.pdf")
 
 
 ## Current results

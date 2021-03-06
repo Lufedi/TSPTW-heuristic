@@ -188,7 +188,7 @@ class Path:
         self.nodes[u],self.nodes[v] = self.nodes[u], self.nodes[v]
         
 
-    def is_valid(self, debug=False):
+    def is_valid(self):
         self.cycle()
         prev = 0
         arrival_time = 0
@@ -198,8 +198,6 @@ class Path:
             arrival_time =  max( arrival_time + graph[prev][v], windows[v][0])
             if arrival_time > windows[v][1]:
                 return False
-            if debug:
-                print(f"prev: {prev} curr {v} arr: {arrival_time} w: {windows[v]} g: {graph[prev][v]}")
             prev = v
 
         if arrival_time > windows[0][1]:
@@ -536,9 +534,7 @@ def insertion_heuristic(f, debug=False):
     post_optimization()
 
     if debug:
-        print(f"{ 'EUREKA' if path.size == N else 'INCOMPLETE:'+ str(N - path.size)} V:{path.is_valid()} M: {path.markspan()}")
-    print(" ".join([str(x) for x in path.iter_path()]))
-
+        print(f"Solved?: { 'EUREKA' if path.size == N else 'INCOMPLETE:'} Makespan: {path.markspan()}")
 
     return path, path.size == N
 
@@ -549,7 +545,6 @@ def insertion_heuristic(f, debug=False):
 def multiple_set_execution():
     base = "./checker/SolomonPotvinBengio/"
     a = [(201,4),(202,4),(203,4),(204,3),(205,4),(206,4),(207,4),(208,3)]
-    #a = [(201, 1)]
     solved, total = 0, 0
     avg_time = 0
     for configuration in a:
@@ -560,7 +555,7 @@ def multiple_set_execution():
             with open(filename) as f:
                 print(filename)
                 start = time.time()
-                sol, s = insertion_heuristic(f, debug=True)
+                _, s = insertion_heuristic(f, debug=True)
                 solved += 1 if s else 0
                 if not s:
                     s += 1 if vns() else 0
@@ -568,7 +563,6 @@ def multiple_set_execution():
                 print("total time", end - start)
                 avg_time += end-start
                 total+=1
-            #with open("./checker/SolomonPotvinBengio/rc_201.1.txt") as f:
     print(f"solved {solved} problems of {total} in avg time: {avg_time/total}")
 
 
@@ -581,8 +575,7 @@ def vns(debug=False):
     BETA = 3
     T =  100
     t = 0
-    #if len(path.not_visited) > 0:
-    #    path.build_infeasible_solution()
+
     while not path.size == N and t < T:
         path.perturbation(random.randint(1, BETA))
 
@@ -597,23 +590,47 @@ def vns(debug=False):
                 level += 1
         t += 1
 
-    print(" ".join([str(x) for x in path.iter_path()]))
     return path.size == N
 
 
 
-def main():
+def main(filename, time, debug):
+    
+    with open(filename) as f:
+            start = time.time()
+            timer = threading.Timer(t, quit_function, args=[])
+            timer.start()
+            try:
+                _, solved = insertion_heuristic(f, debug=debug)
+                if not solved:
+                    vns()
+                print(" ".join([str(x) for x in path.iter_path()]))
+
+            finally:
+                timer.cancel()
+            end = time.time()
+            if debug:
+                print("total time: ", end - start)
+
+    
+
+
+# %%
+
+if __name__ == '__main__':
+
 
     argument_list = sys.argv[1:]
     
     # Options
-    options = "t:f:o:-d"
+    options = "t:f:o:-d-m"
 
     try:
         # Parsing argument
         arguments, values = getopt.getopt(argument_list, options)
         filename,t = None, None
         debug = False
+        multi = False
         # checking each argument
         for current_argument, current_value in arguments:
             if current_argument == "-t":
@@ -622,31 +639,19 @@ def main():
                 filename = current_value
             if current_argument == "-d":
                 debug = True
-        if filename == None or t == None:
-            raise ValueError("Please pass the filename and time as parameter of the script")
-
-        with open(filename) as f:
-            start = time.time()
-            timer = threading.Timer(t, quit_function, args=[])
-            timer.start()
-            try:
-                _, solved = insertion_heuristic(f, debug=debug)
-                if not solved:
-                    vns()
-            finally:
-                timer.cancel()
-            end = time.time()
-            if debug:
-                print("total time: ", end - start)
+            if current_argument == "-m":
+                multi = True 
+        
+        if multi:
+            multiple_set_execution()
+        else:
+            if filename == None or t == None:
+                raise ValueError("Please pass the filename and time as parameter of the script")
+            main(filename, time, debug)
 
     except getopt.error as err:
         print (str(err))
 
-
-# %%
-
-if __name__ == '__main__':
-    #main()
-    multiple_set_execution()
+    #multiple_set_execution()
 
 

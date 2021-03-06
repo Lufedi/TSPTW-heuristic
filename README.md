@@ -4,9 +4,27 @@ This is an effort to implement an heuristic constructive algorithm to solve the 
 
 ### How to run it
 
+**Prerequisite**
+* python >=3
 
 ```
-python tsptw_heuristic.py -f "./checker/SolomonPotvinBengio/rc_202.4.txt" -t 80   
+git clone https://github.com/Lufedi/TSPTW-heuristic.git
+python tsptw_heuristic.py -f "./checker/SolomonPotvinBengio/rc_202.4.txt" -t 80
+```
+to run the complete set of cases in debug mode
+
+```
+python tsptw_heuristic.py -m
+```
+
+run in debug mode to know more detail about the output.
+
+```
+python tsptw_heuristic.py -f "./checker/SolomonPotvinBengio/rc_201.1.txt" -t 80 -d
+
+EUREKA V:True M: 793.2431
+14 18 13 9 5 4 8 6 7 17 16 19 11 1 12 10 3 2 15
+total time:  0.02378702163696289
 ```
 
 **Options**
@@ -14,7 +32,7 @@ python tsptw_heuristic.py -f "./checker/SolomonPotvinBengio/rc_202.4.txt" -t 80
 *Mandatory*
 `-f` location of the input file i.e. `./checker/SolomonPotvinBengio/rc_201.1.txt`
 `-t` maximum time in seconds allowed to run the script
-
+`-m` run all the `SolomonPotvinBengio` tests in one run
 *Optional*
 
 `-d` debug, helps to log more information in the console about the status of the script

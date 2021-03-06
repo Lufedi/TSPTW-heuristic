@@ -31,7 +31,9 @@ total time:  0.02378702163696289
 
 *Mandatory*
 `-f` location of the input file i.e. `./checker/SolomonPotvinBengio/rc_201.1.txt`
+
 `-t` maximum time in seconds allowed to run the script
+
 `-m` run all the `SolomonPotvinBengio` tests in one run
 *Optional*
 

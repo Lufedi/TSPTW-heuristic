@@ -534,7 +534,7 @@ def insertion_heuristic(f, debug=False):
     post_optimization()
 
     if debug:
-        print(f"Solved?: { 'EUREKA' if path.size == N else 'INCOMPLETE:'} Makespan: {path.markspan()}")
+        print(f"Solved?: { 'EUREKA' if path.size == N else 'INCOMPLETE:' + str(N - path.size) } Makespan: {path.markspan()}")
 
     return path, path.size == N
 
